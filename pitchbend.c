@@ -72,9 +72,20 @@ int main()
 	   "Midi Note Frequency: %f\n\n"
 	   "Next Midi Note: %d\n"
 	   "Next Frequency: %f\n\n"
-	   "Pitch Bend: %%%d\n"
+	   "Pitch Bend: "
 	   , closestmidinote, closestfreq, nextclosestnote
-	   , nextclosestfreq, percentage);
+	   , nextclosestfreq);
+
+    if (closestfreq > inputfreq)
+    {
+	printf("-");
+    }
+    else 
+    {
+	printf("+");
+    }
+
+    printf("%%%d\n", percentage);
 
     return 0;
 }
