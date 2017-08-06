@@ -2,6 +2,7 @@
 note.*/
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 
 //Gets the midinote closest to a given frequency and returns it.
@@ -18,7 +19,7 @@ double getFrequency(int midinote, double c0, double semitone_ratio)
     return closestFreq;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
     int closestmidinote, nextclosestnote, percentage; //Stores rounded values.
     double semitone_ratio;
@@ -29,14 +30,18 @@ int main()
     double notedifference; //The difference between the 2 closest notes.
     double percentageUR; //The unrounded percentage.
 
+    if (argc != 2)
+    {
+	printf("Incorrect Use of Program!\nUse: %s Frequency\n", argv[0]);
+	return 1;
+    }
+
     //CALCULATE REQUIRED VALUES.
     semitone_ratio = pow(2.0, 1.0/12.0); //Approx 1.0594631.
     c5 = 220.0 * pow(semitone_ratio, 3.0);
     c0 = c5 * pow(0.5, 5.0);
     
-    //Get input frequency...
-    printf("Please enter a frequency: ");
-    scanf("%lf", &inputfreq);
+    inputfreq = atof(argv[1]); //Get input freq...
 
     //Find the closest midinote...
     closestnoteUR = getMidi(inputfreq, c0, semitone_ratio);
@@ -67,13 +72,14 @@ int main()
     percentageUR = benddifference / notedifference; //Divide the above.
     percentage = (int) (percentageUR * 100); //Round it as a percentage.
 
-    printf("=============================\n"
+    printf("Entered: %f\n"
+	   "=============================\n"
 	   "Closest Midi Note: %d\n"
 	   "Midi Note Frequency: %f\n\n"
 	   "Next Midi Note: %d\n"
 	   "Next Frequency: %f\n\n"
 	   "Pitch Bend: "
-	   , closestmidinote, closestfreq, nextclosestnote
+	   , inputfreq, closestmidinote, closestfreq, nextclosestnote
 	   , nextclosestfreq);
 
     if (closestfreq > inputfreq)
